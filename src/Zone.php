@@ -20,7 +20,7 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
      * @var array
      */
     private static $has_many = array(
-        'Countries' => 'EcommerceCountry'
+        'Countries' => 'Heystack\\Zoning\\Country'
     );
 
     /**

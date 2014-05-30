@@ -20,7 +20,7 @@ class Country extends \DataObject
      * @var array
      */
     private static $has_one = array(
-        'Zone' => 'EcommerceZone'
+        'Zone' => 'Heystack\\Zoning\\Zone'
     );
 
     /**
