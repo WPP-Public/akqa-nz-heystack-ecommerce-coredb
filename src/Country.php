@@ -2,11 +2,15 @@
 
 namespace Heystack\Zoning;
 
+use Heystack\Core\GenerateContainerDataObjectTrait;
+
 /**
- *
+ * @package Heystack\Zoning
  */
 class Country extends \DataObject
 {
+    use GenerateContainerDataObjectTrait;
+
     /**
      * @var array
      */

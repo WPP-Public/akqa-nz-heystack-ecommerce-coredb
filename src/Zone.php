@@ -2,13 +2,16 @@
 
 namespace Heystack\Zoning;
 
+use Heystack\Core\GenerateContainerDataObjectTrait;
 use Heystack\Ecommerce\Locale\Interfaces\ZoneDataProviderInterface;
 
 /**
- * 
+ * @package Heystack\Zoning
  */
 class Zone extends \DataObject implements ZoneDataProviderInterface
 {
+    use GenerateContainerDataObjectTrait;
+
     /**
      * @var array
      */
