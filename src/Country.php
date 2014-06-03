@@ -1,13 +1,14 @@
 <?php
 
-namespace Heystack\Zoning;
+namespace Heystack\DB;
 
 use Heystack\Core\GenerateContainerDataObjectTrait;
+use Heystack\Ecommerce\Locale\Interfaces\CountryDataProviderInterface;
 
 /**
- * @package Heystack\Zoning
+ * @package Heystack\DB
  */
-class Country extends \DataObject
+class Country extends \DataObject implements CountryDataProviderInterface
 {
     use GenerateContainerDataObjectTrait;
 
@@ -24,7 +25,7 @@ class Country extends \DataObject
      * @var array
      */
     private static $has_one = array(
-        'Zone' => 'Heystack\\Zoning\\Zone'
+        'Zone' => 'Heystack\\DB\\Zone'
     );
 
     /**
@@ -35,4 +36,31 @@ class Country extends \DataObject
         'CountryCode',
         'IsDefault'
     );
+
+    /**
+     * Returns the name of the country object
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getField('Name');
+    }
+
+    /**
+     * Returns the country code of the country object
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->getField('CountryCode');
+    }
+
+    /**
+     * Returns a boolean indicating whether this is the default country
+     * @return bool
+     */
+    public function isDefault()
+    {
+        return (bool) $this->getField('IsDefault');
+    }
 }

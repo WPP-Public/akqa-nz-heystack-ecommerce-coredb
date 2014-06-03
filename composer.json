@@ -1,5 +1,5 @@
 {
-    "name": "heystack/ecommerce-zoning",
+    "name": "heystack/ecommerce-coredb",
     "type": "silverstripe-module",
     "require": {
         "php": ">=5.4.0",
@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Heystack\\Zoning\\": "src/"
+            "Heystack\\DB\\": "src/"
         }
     },
     "extra": {

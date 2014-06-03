@@ -1,12 +1,13 @@
 <?php
 
-namespace Heystack\Zoning;
+namespace Heystack\DB;
 
 use Heystack\Core\GenerateContainerDataObjectTrait;
+use Heystack\Ecommerce\Currency\Interfaces\CurrencyDataProvider;
 use Heystack\Ecommerce\Locale\Interfaces\ZoneDataProviderInterface;
 
 /**
- * @package Heystack\Zoning
+ * @package Heystack\DB
  */
 class Zone extends \DataObject implements ZoneDataProviderInterface
 {
@@ -16,25 +17,33 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
      * @var array
      */
     private static $db = array(
-        'Name' => 'Varchar(255)'
+        'Name'         => 'Varchar(255)'
+    );
+
+    /**
+     * @var array
+     */
+    private static $has_one = array(
+        'Currency' => 'Heystack\\DB\\Currency'
     );
 
     /**
      * @var array
      */
     private static $has_many = array(
-        'Countries' => 'Heystack\\Zoning\\Country'
+        'Countries' => 'Heystack\\DB\\Country'
     );
 
     /**
      * @var array
      */
     private static $summary_fields = array(
-        'Name'
+        'Name',
+        'CurrencyCode'
     );
 
     /**
-     * @return FieldList
+     * @return \FieldList
      */
     public function getCMSFields()
     {
@@ -76,5 +85,15 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
         }
         
         return $countries;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCurrency()
+    {
+        $currency = $this->getComponent('Currency');
+        
+        return $currency instanceof CurrencyDataProvider ? $currency->getCurrencyCode() : null;
     }
 }
