@@ -18,7 +18,7 @@ class Currency extends \DataObject implements CurrencyDataProvider
         'CurrencyCode' => 'Varchar(255)',
         'Value' => 'Decimal(10,3)',
         'Symbol' => 'Varchar(255)',
-        'IsDefaultCurrency' => 'Boolean'
+        'IsDefault' => 'Boolean'
     );
 
     private static $summary_fields = array(
@@ -29,6 +29,7 @@ class Currency extends \DataObject implements CurrencyDataProvider
     );
 
     private static $singular_name = "Currency";
+
     private static $plural_name = "Currencies";
 
     /**
@@ -46,7 +47,7 @@ class Currency extends \DataObject implements CurrencyDataProvider
      */
     public function isDefaultCurrency()
     {
-        return $this->getField('IsDefaultCurrency');
+        return $this->getField('IsDefault');
     }
 
     /**
@@ -56,5 +57,13 @@ class Currency extends \DataObject implements CurrencyDataProvider
     public function getValue()
     {
         return $this->getField('Value');
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->getCurrencyCode();
     }
 }

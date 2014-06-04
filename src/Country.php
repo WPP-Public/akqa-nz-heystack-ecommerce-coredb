@@ -37,6 +37,9 @@ class Country extends \DataObject implements CountryDataProviderInterface
         'IsDefault'
     );
 
+    private static $singular_name = "Country";
+    private static $plural_name = "Countries";
+
     /**
      * Returns the name of the country object
      * @return string

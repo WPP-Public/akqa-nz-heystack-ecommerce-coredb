@@ -1,0 +1,2 @@
+INSERT INTO `Heystack\DB\Country` (`ID`, `Created`, `LastEdited`, `Name`, `CountryCode`, `IsDefault`, `ZoneID`)
+  SELECT `ID`, `Created`, `LastEdited`, `Name`, `CountryCode`, `IsDefault`, `ZoneID` FROM AvailabilityCountry;

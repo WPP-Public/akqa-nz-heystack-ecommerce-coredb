@@ -16,31 +16,35 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
     /**
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Name'         => 'Varchar(255)'
-    );
+    ];
 
     /**
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Currency' => 'Heystack\\DB\\Currency'
-    );
+    ];
 
     /**
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'Countries' => 'Heystack\\DB\\Country'
-    );
+    ];
 
     /**
      * @var array
      */
-    private static $summary_fields = array(
-        'Name',
-        'CurrencyCode'
-    );
+    private static $summary_fields = [
+        'Name' => 'Name',
+        'Currency.CurrencyCode' => 'Currency'
+    ];
+
+    private static $singular_name = "Zone";
+
+    private static $plural_name = "Zones";
 
     /**
      * @return \FieldList
