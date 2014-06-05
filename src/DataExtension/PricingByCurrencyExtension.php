@@ -39,7 +39,7 @@ class PricingByCurrencyExtension extends DataExtension
 
             foreach ($currencyService->getCurrencies() as $currency) {
 
-                $db[$currency->getCurrencyCode() . "Price"] = 'Decimal(10, 2)';
+                $db[$currency->getCurrencyCode() . "Price"] = 'Decimal(10,2)';
 
             }
 

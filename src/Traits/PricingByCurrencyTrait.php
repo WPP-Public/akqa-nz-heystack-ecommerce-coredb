@@ -15,11 +15,13 @@ trait PricingByCurrencyTrait
     public function getPrice()
     {
         $currency = $this->getCurrencyService()->getActiveCurrency();
-        return new Money(intval($currency->getSubUnit() * $this->{$currency->getCurrencyCode() . 'Price'}), $currency);
+        return new Money(intval($currency->getSubUnit() * $this->getField($currency->getCurrencyCode() . 'Price')), $currency);
     }
 
     /**
      * @return \Heystack\Ecommerce\Currency\Interfaces\CurrencyServiceInterface
      */
     abstract function getCurrencyService();
+    
+    abstract function getField($field);
 }
