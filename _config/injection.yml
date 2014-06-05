@@ -1,0 +1,7 @@
+Injector:
+  Heystack\DB\DataExtension\PricingByCurrencyExtension:
+    properties:
+      CurrencyService: %$heystack.currency_service
+  Heystack\DB\DataExtension\DiscountPricingByCurrencyExtension:
+    properties:
+      CurrencyService: %$heystack.currency_service

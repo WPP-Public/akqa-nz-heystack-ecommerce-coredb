@@ -25,7 +25,7 @@ class Currency extends \DataObject implements CurrencyDataProvider
         'CurrencyCode',
         'Symbol',
         'Value',
-        'IsDefaultCurrency'
+        'IsDefault'
     );
 
     private static $singular_name = "Currency";
