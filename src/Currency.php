@@ -5,6 +5,7 @@ namespace Heystack\DB;
 use Heystack\Core\GenerateContainerDataObjectTrait;
 use Heystack\Ecommerce\Currency\Interfaces\CurrencyDataProvider;
 use Heystack\Ecommerce\Currency\Traits\CurrencyTrait;
+use SebastianBergmann\Money\Currency as MoneyCurrency;
 
 /**
  * @package Heystack\DB
@@ -31,6 +32,18 @@ class Currency extends \DataObject implements CurrencyDataProvider
     private static $singular_name = "Currency";
 
     private static $plural_name = "Currencies";
+
+    /**
+     * Don't allow change of currency code to something invalid
+     */
+    protected function onBeforeWrite()
+    {
+        $currencyCode = $this->getCurrencyCode();
+        if ($currencyCode) {
+            new MoneyCurrency($currencyCode);
+        }
+        parent::onBeforeWrite();
+    }
 
     /**
      * Returns the Currency's code, e.g. NZD, USD
