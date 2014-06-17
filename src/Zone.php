@@ -55,14 +55,14 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
 
         $fields->removeByName('Countries');
 
-        $fields
-            ->tab("Countries")
-            ->hasManyGrid(
-                "Countries",
-                "Countries",
-                $this->Countries()->filter("ZoneID", $this->ID)
-            )
-        ;
+        if ($this->exists()) {
+            $fields->addFieldToTab('Root.Countries', new \GridField(
+                'Countries',
+                'Countries in zone',
+                $this->Countries(),
+                new \GridfieldConfig_RelationOnlyEditor())
+            );
+        }
 
         return $fields;
     }
