@@ -6,6 +6,7 @@ use Heystack\Core\GenerateContainerDataObjectTrait;
 use Heystack\Ecommerce\Currency\Interfaces\CurrencyDataProvider;
 use Heystack\Ecommerce\Currency\Traits\CurrencyTrait;
 use SebastianBergmann\Money\Currency as MoneyCurrency;
+use SebastianBergmann\Money\InvalidArgumentException;
 
 /**
  * @package Heystack\DB
@@ -34,15 +35,27 @@ class Currency extends \DataObject implements CurrencyDataProvider
     private static $plural_name = "Currencies";
 
     /**
-     * Don't allow change of currency code to something invalid
+     * Let's make sure that the currency code complies with ISO 4217
+     * @return \A|\ValidationResult
      */
-    protected function onBeforeWrite()
+    protected function validate()
     {
+        $result = new \ValidationResult();
+
         $currencyCode = $this->getCurrencyCode();
         if ($currencyCode) {
-            new MoneyCurrency($currencyCode);
+            try {
+                new MoneyCurrency($currencyCode);
+            } catch (InvalidArgumentException $e) {
+                $result = new \ValidationResult(
+                    false,
+                    "$currencyCode must be an ISO 4217 currency code"
+                );
+            }
         }
-        parent::onBeforeWrite();
+
+        $this->extend('validate', $result);
+        return $result;
     }
 
     /**

@@ -1,0 +1,7 @@
+---
+Name: ecommerce-coredb
+After: 'cms/*'
+---
+
+Heystack\DB\Currency:
+  validation_enabled : true
