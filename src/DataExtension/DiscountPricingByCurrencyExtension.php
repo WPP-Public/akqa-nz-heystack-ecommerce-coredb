@@ -46,7 +46,7 @@ class DiscountPricingByCurrencyExtension extends PricingByCurrencyExtension
      * @param FieldList $fields
      * @return FieldList
      */
-    public function updateCMSFields(FieldList &$fields)
+    public function updateCMSFields(FieldList $fields)
     {
         foreach ($this->currencyService->getCurrencies() as $currency) {
 

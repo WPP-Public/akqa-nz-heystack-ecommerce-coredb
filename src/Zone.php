@@ -57,11 +57,16 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
 
         if ($this->exists()) {
             $fields->addFieldToTab('Root.Countries', new \GridField(
-                'Countries',
-                'Countries in zone',
-                $this->Countries(),
-                new \GridfieldConfig_RelationOnlyEditor())
+                    'Countries',
+                    'Countries in zone',
+                    $this->Countries(),
+                    $config = new \GridFieldConfig_RelationEditor())
             );
+
+            $config->removeComponentsByType("GridFieldAddNewButton");
+            $config->removeComponentsByType("GridFieldEditButton");
+
+            //GridFieldConfig_RelationEditor
         }
 
         return $fields;
@@ -83,11 +88,11 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
     public function getCountryCodes()
     {
         $countries = [];
-        
+
         foreach ($this->Countries() as $country) {
             $countries[] = $country->CountryCode;
         }
-        
+
         return $countries;
     }
 
@@ -97,7 +102,7 @@ class Zone extends \DataObject implements ZoneDataProviderInterface
     public function getCurrency()
     {
         $currency = $this->getComponent('Currency');
-        
+
         return $currency instanceof CurrencyDataProvider ? $currency->getCurrencyCode() : null;
     }
 }

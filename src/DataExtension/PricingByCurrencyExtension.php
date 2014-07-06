@@ -4,6 +4,7 @@ namespace Heystack\DB\DataExtension;
 
 use DataExtension;
 use FieldList;
+use Heystack\Ecommerce\Currency\Interfaces\CurrencyInterface;
 use Heystack\Ecommerce\Currency\Interfaces\CurrencyServiceInterface;
 use Heystack\Ecommerce\Currency\Traits\HasCurrencyServiceTrait;
 use Injector;
@@ -21,6 +22,27 @@ class PricingByCurrencyExtension extends DataExtension
     use HasCurrencyServiceTrait;
 
     /**
+     * @var string|null
+     */
+    protected $suffix;
+
+    /**
+     * @var string|null
+     */
+    protected $prefix;
+
+    /**
+     * Optionally provide a prefix
+     * @param string|null $prefix
+     */
+    public function __construct($suffix = 'Price', $prefix = '')
+    {
+        $this->suffix = $suffix;
+        $this->prefix = $prefix;
+        parent::__construct();
+    }
+
+    /**
      * @param $class
      * @param $extension
      * @param $args
@@ -28,21 +50,20 @@ class PricingByCurrencyExtension extends DataExtension
      */
     public static function get_extra_config($class, $extension, $args)
     {
+        $suffix = $args && isset($args[0]) ? $args[0] : 'Price';
+        $prefix = $args && isset($args[1]) ? $args[1] : '';
+
         // Have to rely on the injector because of static method
-        $extension = Injector::inst()->get(__CLASS__);
+        $extension = Injector::inst()->create(__CLASS__, $suffix, $prefix);
 
         $db = [];
 
         $currencyService = $extension->getCurrencyService();
 
         if ($currencyService instanceof CurrencyServiceInterface) {
-
             foreach ($currencyService->getCurrencies() as $currency) {
-
-                $db[$currency->getCurrencyCode() . "Price"] = 'Decimal(10,2)';
-
+                $db[$extension->getColumnName($currency)] = 'Decimal(10,2)';
             }
-
         }
 
         return [
@@ -59,14 +80,12 @@ class PricingByCurrencyExtension extends DataExtension
         if ($this->currencyService instanceof CurrencyServiceInterface) {
 
             foreach ($this->currencyService->getCurrencies() as $currency) {
+                $columnName = $this->getColumnName($currency);
 
-                $currencyCode = $currency->getCurrencyCode();
-
-                $fields->removeByName($currencyCode . "Price");
-
+                $fields->removeByName($columnName);
                 $fields->addFieldToTab(
                     'Root.Prices',
-                    new NumericField($currencyCode . "Price", $currencyCode . " Price")
+                    new NumericField($columnName, \FormField::name_to_label($columnName))
                 );
 
             }
@@ -74,5 +93,15 @@ class PricingByCurrencyExtension extends DataExtension
         }
 
         return $fields;
+    }
+    
+    public function getColumnName(CurrencyInterface $currency)
+    {
+        return sprintf(
+            "%s%s%s",
+            $this->prefix,
+            $currency->getCurrencyCode(),
+            $this->suffix
+        );
     }
 }
