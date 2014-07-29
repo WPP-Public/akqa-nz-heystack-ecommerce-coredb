@@ -2,8 +2,6 @@
 
 namespace Heystack\DB\Traits;
 
-use SebastianBergmann\Money\Money;
-
 /**
  * @package Heystack\DB\Traits
  */
@@ -15,7 +13,7 @@ trait DiscountPricingByCurrencyTrait
     public function getDiscountPrice()
     {
         $currency = $this->getCurrencyService()->getActiveCurrency();
-        return new Money(intval($currency->getSubUnit() * $this->{$currency->getCurrencyCode() . 'PriceDiscounted'}), $currency);
+        return \Heystack\Ecommerce\convertStringToMoney($this->{$currency->getCurrencyCode() . 'PriceDiscounted'}, $currency);
     }
 
     /**
