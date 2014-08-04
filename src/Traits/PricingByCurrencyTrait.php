@@ -22,7 +22,7 @@ trait PricingByCurrencyTrait
     abstract function getCurrencyService();
 
     /**
-     * @param $field
+     * @param string $field
      * @return mixed
      */
     abstract function getField($field);

@@ -32,8 +32,9 @@ class PricingByCurrencyExtension extends DataExtension
     protected $prefix;
 
     /**
-     * Optionally provide a prefix
-     * @param string|null $prefix
+     * Optionally provide a prefix and suffix
+     * @param string|void $suffix
+     * @param string|void $prefix
      */
     public function __construct($suffix = 'Price', $prefix = '')
     {
@@ -43,9 +44,9 @@ class PricingByCurrencyExtension extends DataExtension
     }
 
     /**
-     * @param $class
-     * @param $extension
-     * @param $args
+     * @param string $class
+     * @param string $extension
+     * @param array $args
      * @return array
      */
     public static function get_extra_config($class, $extension, $args)
@@ -94,7 +95,11 @@ class PricingByCurrencyExtension extends DataExtension
 
         return $fields;
     }
-    
+
+    /**
+     * @param \Heystack\Ecommerce\Currency\Interfaces\CurrencyInterface $currency
+     * @return string
+     */
     public function getColumnName(CurrencyInterface $currency)
     {
         return sprintf(

@@ -13,9 +13,9 @@ use Heystack\Ecommerce\Currency\Interfaces\CurrencyServiceInterface;
 class DiscountPricingByCurrencyExtension extends PricingByCurrencyExtension
 {
     /**
-     * @param $class
-     * @param $extension
-     * @param $args
+     * @param string $class
+     * @param string $extension
+     * @param array $args
      * @return array
      */
     public static function get_extra_config($class, $extension, $args)
@@ -43,8 +43,8 @@ class DiscountPricingByCurrencyExtension extends PricingByCurrencyExtension
     }
 
     /**
-     * @param FieldList $fields
-     * @return FieldList
+     * @param \FieldList $fields
+     * @return \FieldList
      */
     public function updateCMSFields(FieldList $fields)
     {
